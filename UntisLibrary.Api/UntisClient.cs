@@ -152,7 +152,7 @@ namespace UntisLibrary.Api
         public Task<IEnumerable<Student>> GetStudents(SchoolClass schoolClass = null)
         {
             string filter = "";
-            if (schoolClass != null) { filter = "&filter.klasseOrStudentgroupId=KL{schoolClassId}"; }
+            if (schoolClass != null) { filter = $"&filter.klasseOrStudentgroupId=KL{schoolClass.InternalId}"; }
 
             return SendWebRequestAsync<IEnumerable<Student>>($"timetable/weekly/pageconfig?type=5{filter}");
         }

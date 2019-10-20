@@ -46,6 +46,18 @@ try
             Console.WriteLine("Lehrerkürzel mit A: " + string.Join(", ", teachers));
             Console.WriteLine();
 
+            // Alle Schüler der 4BHIF suchen.
+            var students = from s in await client.GetStudents((await client.Classes).FirstOrDefault(c => c.UniqueName == "4BHIF"))
+                            orderby s.LongName, s.ForeName
+                            select new
+                            {
+                                Name = s.LongName,
+                                Firstname = s.ForeName
+                            };
+            Console.WriteLine("Schüler der 4BHIF");
+            Console.WriteLine(JsonSerializer.Serialize(students));
+            Console.WriteLine();
+
             Console.WriteLine("**********************************************");
             Console.WriteLine("* STUNDENPLAN der 4BHIF von 23. - 29.10.2019 *");
             Console.WriteLine("**********************************************");
