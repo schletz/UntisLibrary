@@ -1,11 +1,15 @@
-# .NET Core 3 Bibliothek für den Zugriff auf WebUntis
+# .NET Bibliothek für den Zugriff auf WebUntis
 
 ## Erstellen der DLL für die Verwendung in eigenen Projekten
-Die DLL kann mit folgendem Befehl kompiliert werden. Danach kann der Ordner *netcoreapp3.0/publish*
+Die DLL kann mit folgendem Befehl kompiliert werden. Danach kann der Ordner *netstandard2.0/publish*
 in das eigene Projekt kopiert werden und auf die DLL Datei verwiesen werden.
 ```
 .../UntisLibrary.Api> dotnet publish -c Release
 ```
+
+## Dependencies
+Die Bibliothek benötigt .NET Standard 2.0. Als Zusatzpaket wird System.Text.Json geladen. Dadurch
+steht diese Bibliothek auf allen Plattformen zur Verfügung.
 
 ## Starten des Testprogrammes
 Das Testprogramm in *UntisLibrary.Testapp* kann in 3 Varianten direkt ausgeführt werden:
