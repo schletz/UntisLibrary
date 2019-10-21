@@ -31,7 +31,6 @@ namespace UntisLibrary.Api
         private Lazy<Task<IEnumerable<Subject>>> _subjects;
         private Lazy<Task<IEnumerable<Room>>> _rooms;
         private Lazy<Task<IEnumerable<Period>>> _periods;
-
         /// <summary>
         /// Aktiver Schulname in WebUntis (z. B. Spengergasse)
         /// </summary>
@@ -318,9 +317,10 @@ namespace UntisLibrary.Api
         {
             IEnumerable<SchoolClass> classes = await SendWebRequestAsync<IEnumerable<SchoolClass>>("timetable/weekly/pageconfig?type=1");
             // Den Klassenvorstand in der Lehrerliste suchen und die Navigation dorthin speichern.
+            IEnumerable<Teacher> teachers = await Teachers;
             foreach (SchoolClass schoolClass in classes)
             {
-                Teacher classTeacher = (await Teachers).FirstOrDefault(t => t.UniqueName == schoolClass.ClassTeacher?.UniqueName);
+                Teacher classTeacher = teachers.FirstOrDefault(t => t.UniqueName == schoolClass.ClassTeacher?.UniqueName);
                 schoolClass.ClassTeacher = classTeacher ?? schoolClass.ClassTeacher;
             }
             return classes;
