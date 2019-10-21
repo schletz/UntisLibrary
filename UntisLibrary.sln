@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntisLibrary.Api", "UntisLibrary.Api\UntisLibrary.Api.csproj", "{129D4BD9-3AF5-4BF7-A50F-B75BC20A596B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UntisLibrary.Testapp", "UntisLibrary.Testapp\UntisLibrary.Testapp.csproj", "{EFF673FC-B16A-4E3E-8F7E-EC1A3169819D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{129D4BD9-3AF5-4BF7-A50F-B75BC20A596B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{129D4BD9-3AF5-4BF7-A50F-B75BC20A596B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{129D4BD9-3AF5-4BF7-A50F-B75BC20A596B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{129D4BD9-3AF5-4BF7-A50F-B75BC20A596B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF673FC-B16A-4E3E-8F7E-EC1A3169819D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF673FC-B16A-4E3E-8F7E-EC1A3169819D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF673FC-B16A-4E3E-8F7E-EC1A3169819D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF673FC-B16A-4E3E-8F7E-EC1A3169819D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4F38E7D-B9BC-4A01-9F5F-DF4A002721F8}
+	EndGlobalSection
+EndGlobal
