@@ -20,7 +20,7 @@ namespace UntisLibrary.Api
     /// <summary>
     /// Klasse zum Abfragen von WebUntis.
     /// </summary>
-    public class UntisClient : IDisposable
+    public class UntisClient
     {
         private User _currentUser;
         private readonly HttpClient _client = new HttpClient();
@@ -317,7 +317,7 @@ namespace UntisLibrary.Api
         {
             IEnumerable<SchoolClass> classes = await SendWebRequestAsync<IEnumerable<SchoolClass>>("timetable/weekly/pageconfig?type=1");
             // Den Klassenvorstand in der Lehrerliste suchen und die Navigation dorthin speichern.
-            IEnumerable<Teacher> teachers = await Teachers;
+            IEnumerable<Teacher> teachers = (await Teachers).ToList();
             foreach (SchoolClass schoolClass in classes)
             {
                 Teacher classTeacher = teachers.FirstOrDefault(t => t.UniqueName == schoolClass.ClassTeacher?.UniqueName);
@@ -461,18 +461,6 @@ namespace UntisLibrary.Api
             // Ansonsten wird im Property result die Antwort verarbeitet.
             JsonElement result = JsonDocument.Parse(response).RootElement.GetProperty("result");
             return JsonSerializer.Deserialize<T>(result.ToString(), _jsonOptions);
-        }
-
-        /// <summary>
-        /// Meldet sich von der API ab.
-        /// </summary>
-        public void Dispose()
-        {
-            try
-            {
-                LogoutAsync().Wait();
-            }
-            catch { }
         }
     }
 }
