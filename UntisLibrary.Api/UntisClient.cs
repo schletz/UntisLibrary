@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using UntisLibrary.Api.Entities;
-
+using System.Net;
 
 namespace UntisLibrary.Api
 {
@@ -23,7 +23,9 @@ namespace UntisLibrary.Api
     public class UntisClient
     {
         private User _currentUser;
-        private readonly HttpClient _client = new HttpClient();
+        private CookieContainer _container;
+        private readonly HttpClientHandler _handler;
+        private readonly HttpClient _client;
         private readonly JsonSerializerOptions _jsonOptions =
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true, PropertyNamingPolicy = new UntisNamingPolicy() };
         private Lazy<Task<IEnumerable<SchoolClass>>> _classes;
@@ -91,6 +93,12 @@ namespace UntisLibrary.Api
             ApiUrl = $"https://{Server}/WebUntis/jsonrpc.do";
             WebApiUrl = $"https://{Server}/WebUntis/api/public";
             ApiClientId = Guid.NewGuid().ToString("N");
+
+            // Den Cookiecontainer für das Speichern des JSESSIONID Cookies bei der Authentifizierung
+            // initialisieren.
+            _container = new CookieContainer();
+            _handler = new HttpClientHandler { UseCookies = true, AllowAutoRedirect = false, CookieContainer = _container };
+            _client = new HttpClient(_handler);
         }
 
         /// <summary>
@@ -107,6 +115,8 @@ namespace UntisLibrary.Api
             {
                 await LogoutAsync();
                 _currentUser = await SendApiRequestAsync<User>("authenticate", new { user = username, password = password, client = ApiClientId });
+                // Das Sessioncookie für die weiteren Anfragen speichern.
+                _container.Add(new Uri($"https://{Server}"), new Cookie("JSESSIONID", _currentUser.SessionId));
                 _classes = new Lazy<Task<IEnumerable<SchoolClass>>>(() => GetClasses());
                 _teachers = new Lazy<Task<IEnumerable<Teacher>>>(() => SendWebRequestAsync<IEnumerable<Teacher>>("timetable/weekly/pageconfig?type=2"));
                 _subjects = new Lazy<Task<IEnumerable<Subject>>>(() => SendWebRequestAsync<IEnumerable<Subject>>("timetable/weekly/pageconfig?type=3"));
@@ -136,6 +146,7 @@ namespace UntisLibrary.Api
                 _periods = null;
                 _currentUser = null;
                 await SendApiRequestAsync("logout", null);
+                _container = new CookieContainer();                
             }
             catch { }
         }
